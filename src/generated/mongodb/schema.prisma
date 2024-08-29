@@ -1,0 +1,17 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+  output          = "../src/generated/mongodb"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Report {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  campaignId Int
+  createdAt  DateTime @default(now())
+  reportData Json
+}

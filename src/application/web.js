@@ -1,5 +1,5 @@
 import express from 'express'
-// import { checkDBMiddleware } from '../middleware/checkDBMiddleware.js'
+import { checkDBMiddleware } from '../middleware/checkDBMiddleware.js'
 import { campaignRoutes } from '../route/campaignRoutes.js'
 import { errors } from '../util/messageError.js'
 import { responseError } from '../util/responseAPI.js'
@@ -8,7 +8,7 @@ import { errorMiddleware } from '../middleware/errorMiddleware.js'
 export const web = express()
 web.use(express.json())
 web.use(express.urlencoded({ extended: true }))
-// web.use(checkDBMiddleware)
+web.use(checkDBMiddleware)
 
 web.use('/api/v1', campaignRoutes)
 

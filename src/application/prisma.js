@@ -1,8 +1,8 @@
 import { Prisma } from '@prisma/client'
 import { logger } from './logging.js'
 
-import { PrismaClient as PrismaClientPostgres } from '../generated/postgresql'
-import { PrismaClient as PrismaClientMongo } from '../generated/mongodb'
+import { PrismaClient as PrismaClientPostgres } from '../generated/postgresql/index.js'
+import { PrismaClient as PrismaClientMongo } from '../generated/mongodb/index.js'
 
 export const prisma = Prisma
 
