@@ -11,23 +11,12 @@ const transporter = nodemailer.createTransport({
     },
 })
 
-export const sendVerificationEmail = (email, token) => {
+export const sendEmailBlast = (email, user) => {
     const mailOptions = {
         from: process.env.EMAIL_ADDRESS,
         to: email,
-        subject: 'UNSMOKE Email Verification',
-        text: `Your verification code is: ${token}`,
-    }
-
-    return transporter.sendMail(mailOptions)
-}
-
-export const sendResetPasswordEmail = (email, token) => {
-    const mailOptions = {
-        from: process.env.EMAIL_ADDRESS,
-        to: email,
-        subject: 'UNSMOKE Password Reset',
-        text: `Your password reset code is: ${token}`,
+        subject: 'OCA Email Blast',
+        text: `Hello ${user.name}, your email blast has been sent to ${email}`,
     }
 
     return transporter.sendMail(mailOptions)

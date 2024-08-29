@@ -15,4 +15,13 @@ const responseError = (code, status, error) =>
         errors: error,
     })
 
+export class ResponseError extends Error {
+    constructor(code, status, error) {
+        super(error)
+        this.code = code
+        this.status = status
+        this.error = error
+    }
+}
+
 export { responseSuccess, responseError }

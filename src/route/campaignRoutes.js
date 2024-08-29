@@ -1,9 +1,8 @@
-import express, { Request, Response } from 'express'
+import express from 'express'
+import * as campaignController from '../controller/campaignController.js'
 
 const campaignRoutes = express.Router()
 
-campaignRoutes.get('/', (req: Request, res: Response) => {
-  res.send('campaign routes')
-})
+campaignRoutes.post('/campaign', campaignController.createCampaign)
 
 export { campaignRoutes }

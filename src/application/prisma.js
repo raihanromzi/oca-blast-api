@@ -1,9 +1,12 @@
-import { Prisma, PrismaClient } from '@prisma/client'
+import { Prisma } from '@prisma/client'
 import { logger } from './logging.js'
+
+import { PrismaClient as PrismaClientPostgres } from '../generated/postgresql'
+import { PrismaClient as PrismaClientMongo } from '../generated/mongodb'
 
 export const prisma = Prisma
 
-export const prismaClient = new PrismaClient({
+export const prismaClientPostgres = new PrismaClientPostgres({
     errorFormat: 'pretty',
     log: [
         {
@@ -25,18 +28,58 @@ export const prismaClient = new PrismaClient({
     ],
 })
 
-prismaClient.$on('error', (e) => {
-    logger.error(e)
+export const prismaClientMongo = new PrismaClientMongo({
+    errorFormat: 'pretty',
+    log: [
+        {
+            emit: 'event',
+            level: 'query',
+        },
+        {
+            emit: 'event',
+            level: 'error',
+        },
+        {
+            emit: 'event',
+            level: 'info',
+        },
+        {
+            emit: 'event',
+            level: 'warn',
+        },
+    ],
 })
 
-prismaClient.$on('warn', (e) => {
-    logger.warn(e)
+// PostgreSQL Logging
+prismaClientPostgres.$on('error', (e) => {
+    logger.error(`[PostgreSQL] ${e}`)
 })
 
-prismaClient.$on('info', (e) => {
-    logger.info(e)
+prismaClientPostgres.$on('warn', (e) => {
+    logger.warn(`[PostgreSQL] ${e}`)
 })
 
-prismaClient.$on('query', (e) => {
-    logger.info(e)
+prismaClientPostgres.$on('info', (e) => {
+    logger.info(`[PostgreSQL] ${e}`)
+})
+
+prismaClientPostgres.$on('query', (e) => {
+    logger.info(`[PostgreSQL] ${e}`)
+})
+
+// MongoDB Logging
+prismaClientMongo.$on('error', (e) => {
+    logger.error(`[MongoDB] ${e}`)
+})
+
+prismaClientMongo.$on('warn', (e) => {
+    logger.warn(`[MongoDB] ${e}`)
+})
+
+prismaClientMongo.$on('info', (e) => {
+    logger.info(`[MongoDB] ${e}`)
+})
+
+prismaClientMongo.$on('query', (e) => {
+    logger.info(`[MongoDB] ${e}`)
 })

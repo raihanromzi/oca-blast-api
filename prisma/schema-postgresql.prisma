@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_POSTGRESQL_URL")
+  directUrl = env("DIRECT_POSTGRESQL_URL")
+}
+
+model Campaign {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Recipient Recipient[]
+  SentLog   SentLog[]
+}
+
+model User {
+  id          Int         @id @default(autoincrement())
+  email       String      @unique
+  phoneNumber String?     @unique
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  Recipient   Recipient[]
+}
+
+model Recipient {
+  id          Int           @id @default(autoincrement())
+  userId      Int
+  campaignId  Int
+  user        User          @relation(fields: [userId], references: [id])
+  campaign    Campaign      @relation(fields: [campaignId], references: [id])
+  receiveLogs ReceiveLogs[]
+}
+
+model ReceiveLogs {
+  id          Int       @id @default(autoincrement())
+  recipientId Int
+  logType     LogType
+  createdAt   DateTime  @default(now())
+  recipient   Recipient @relation(fields: [recipientId], references: [id])
+}
+
+model SentLog {
+  id              Int      @id @default(autoincrement())
+  campaignId      Int
+  sentType        SentType
+  templateMessage String
+  createdAt       DateTime @default(now())
+  campaign        Campaign @relation(fields: [campaignId], references: [id])
+}
+
+enum LogType {
+  EMAIL_SENT
+  EMAIL_OPENED
+  EMAIL_CLICKED
+  WHATSAPP_SENT
+  WHATSAPP_READ
+}
+
+enum SentType {
+  EMAIL
+  WHATSAPP
+}
