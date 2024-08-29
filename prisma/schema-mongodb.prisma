@@ -12,6 +12,6 @@ datasource db {
 model Report {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   campaignId Int
-  createdAt  DateTime @default(now())
   reportData Json
+  createdAt  DateTime @default(now())
 }
