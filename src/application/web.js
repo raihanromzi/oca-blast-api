@@ -1,6 +1,5 @@
 import express from 'express'
 import { checkDBMiddleware } from '../middleware/checkDBMiddleware.js'
-import { campaignRoute } from '../route/campaignRoute.js'
 import { errors } from '../util/messageError.js'
 import { responseError } from '../util/responseAPI.js'
 import { errorMiddleware } from '../middleware/errorMiddleware.js'
@@ -11,7 +10,6 @@ web.use(express.json())
 web.use(express.urlencoded({ extended: true }))
 web.use(checkDBMiddleware)
 
-web.use('/api/v1', campaignRoute)
 web.use('/api/v1', templateMessageRoute)
 
 web.use(errorMiddleware)
