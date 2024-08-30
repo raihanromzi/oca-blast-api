@@ -4,6 +4,7 @@ import { errors } from '../util/messageError.js'
 import { responseError } from '../util/responseAPI.js'
 import { errorMiddleware } from '../middleware/errorMiddleware.js'
 import { templateMessageRoute } from '../route/templateMessageRoute.js'
+import { userRoute } from '../route/userRoute.js'
 
 export const web = express()
 web.use(express.json())
@@ -11,6 +12,7 @@ web.use(express.urlencoded({ extended: true }))
 web.use(checkDBMiddleware)
 
 web.use('/api/v1', templateMessageRoute)
+web.use('/api/v1', userRoute)
 
 web.use(errorMiddleware)
 

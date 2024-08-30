@@ -28,7 +28,13 @@ const DATABASE = {
     CONNECTION: 'failed to connect to the database, please try again later',
 }
 
+const USERS = {
+    NOT_FOUND: 'the user is not found',
+    ALREADY_EXIST: 'the user already exist',
+}
+
 export const errors = {
     HTTP: httpErrors,
     DATABASE: DATABASE,
+    USERS: USERS,
 }
