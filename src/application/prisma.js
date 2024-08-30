@@ -52,34 +52,34 @@ export const prismaClientMongo = new PrismaClientMongo({
 
 // PostgreSQL Logging
 prismaClientPostgres.$on('error', (e) => {
-    logger.error(`[PostgreSQL] ${e}`)
+    logger.error(`[PostgreSQL] ${JSON.stringify(e, null, 2)}`)
 })
 
 prismaClientPostgres.$on('warn', (e) => {
-    logger.warn(`[PostgreSQL] ${e}`)
+    logger.warn(`[PostgreSQL] ${JSON.stringify(e, null, 2)}`)
 })
 
 prismaClientPostgres.$on('info', (e) => {
-    logger.info(`[PostgreSQL] ${e}`)
+    logger.info(`[PostgreSQL] ${JSON.stringify(e, null, 2)}`)
 })
 
 prismaClientPostgres.$on('query', (e) => {
-    logger.info(`[PostgreSQL] ${e}`)
+    logger.info(`[PostgreSQL] ${JSON.stringify(e, null, 2)}`)
 })
 
 // MongoDB Logging
 prismaClientMongo.$on('error', (e) => {
-    logger.error(`[MongoDB] ${e}`)
+    logger.error(`[MongoDB] ${JSON.stringify(e, null, 2)}`)
 })
 
 prismaClientMongo.$on('warn', (e) => {
-    logger.warn(`[MongoDB] ${e}`)
+    logger.warn(`[MongoDB] ${JSON.stringify(e, null, 2)}`)
 })
 
 prismaClientMongo.$on('info', (e) => {
-    logger.info(`[MongoDB] ${e}`)
+    logger.info(`[MongoDB] ${JSON.stringify(e, null, 2)}`)
 })
 
 prismaClientMongo.$on('query', (e) => {
-    logger.info(`[MongoDB] ${e}`)
+    logger.info(`[MongoDB] ${JSON.stringify(e, null, 2)}`)
 })
