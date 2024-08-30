@@ -3,7 +3,6 @@ import { errors } from '../util/messageError.js'
 import { ZodError } from 'zod'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/binary'
 import { prisma } from '../application/prisma.js'
-import { logger } from '../application/logging.js'
 
 export const errorMiddleware = async (err, req, res, next) => {
     if (!err) {
@@ -19,13 +18,7 @@ export const errorMiddleware = async (err, req, res, next) => {
     if (err instanceof ZodError) {
         return res
             .status(400)
-            .send(
-                responseError(
-                    400,
-                    errors.HTTP.STATUS.BAD_REQUEST,
-                    errors.HTTP.MESSAGE.UNKNOWN_BODY_ERROR
-                )
-            )
+            .send(responseError(400, errors.HTTP.STATUS.BAD_REQUEST, err))
             .end()
     }
 
@@ -45,17 +38,11 @@ export const errorMiddleware = async (err, req, res, next) => {
     if (err instanceof prisma.PrismaClientValidationError) {
         return res
             .status(errors.HTTP.CODE.BAD_REQUEST)
-            .send(
-                responseError(
-                    errors.HTTP.CODE.BAD_REQUEST,
-                    errors.HTTP.STATUS.BAD_REQUEST,
-                    errors.HTTP.MESSAGE.UNKNOWN_BODY_ERROR
-                )
-            )
+            .send(responseError(errors.HTTP.CODE.BAD_REQUEST, errors.HTTP.STATUS.BAD_REQUEST, err))
             .end()
     }
 
-    logger.error(err.message)
+    console.log(err)
     return res
         .status(errors.HTTP.CODE.INTERNAL_SERVER_ERROR)
         .send(

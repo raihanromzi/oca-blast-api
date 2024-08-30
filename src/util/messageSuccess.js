@@ -11,21 +11,11 @@ const httpSuccess = {
     },
 }
 
+export const USERS = {
+    DELETED: 'User deleted successfully',
+}
+
 export const success = {
     HTTP: httpSuccess,
-}
-
-const httpFailure = {
-    CODE: {
-        NOT_FOUND: 404,
-        INTERNAL_SERVER_ERROR: 500,
-    },
-    STATUS: {
-        NOT_FOUND: 'not found',
-        INTERNAL_SERVER_ERROR: 'internal server error',
-    },
-}
-
-export const failure = {
-    HTTP: httpFailure,
+    USERS,
 }

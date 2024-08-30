@@ -29,7 +29,8 @@ const DATABASE = {
 }
 
 const USERS = {
-    NOT_FOUND: 'the requested user is not found',
+    NOT_FOUND: 'the user is not found',
+    ALREADY_EXIST: 'the user already exist',
 }
 
 export const errors = {
