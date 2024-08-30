@@ -1,22 +1,15 @@
-import { logger } from '../application/logging.js'
-import { prismaClientMongo } from '../application/prisma.js'
+import * as templateService from '../service/templateMessageService.js'
+import { success } from '../util/messageSuccess.js'
+import { responseSuccess } from '../util/responseAPI.js'
 
 const createCampaign = async (req, res, next) => {
     try {
-        const test = await prismaClientMongo.report.create({
-            data: {
-                campaignId: 1,
-                reportData: {
-                    name: 'test',
-                },
-                createdAt: new Date(),
-            },
-        })
-        res.status(200).json({ message: 'Campaign created successfully!' })
-        logger.info(`Campaign created successfully!`)
+        const result = await templateService.generateTemplateMessage()
+        res.status(success.HTTP.CODE.OK).send(
+            responseSuccess(success.HTTP.CODE.OK, success.HTTP.STATUS.OK, result)
+        )
     } catch (e) {
         next(e)
-        logger.info(`Error: ${e}`)
     }
 }
 

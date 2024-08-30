@@ -1,6 +1,8 @@
 import { responseError, ResponseError } from '../util/responseAPI.js'
 import { prisma } from '../application/prisma.js'
 import { errors } from '../util/messageError.js'
+import { logger } from '../application/logging.js'
+import { ZodError } from 'zod'
 
 export const errorMiddleware = async (err, req, res, next) => {
     if (!err) {
@@ -10,6 +12,13 @@ export const errorMiddleware = async (err, req, res, next) => {
         return res
             .status(err.code)
             .send(responseError(err.code, err.status, err.message))
+            .end()
+    }
+
+    if (err instanceof ZodError) {
+        return res
+            .status(400)
+            .send(responseError(400, errors.HTTP.STATUS.BAD_REQUEST, err.message))
             .end()
     }
 
@@ -27,6 +36,7 @@ export const errorMiddleware = async (err, req, res, next) => {
             .end()
     }
 
+    logger.error(err)
     return res
         .status(errors.HTTP.CODE.INTERNAL_SERVER_ERROR)
         .send(

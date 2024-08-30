@@ -4,6 +4,6 @@ import * as templateMessageController from '../controller/templateMessageControl
 
 const templateMessageRoute = express.Router()
 
-templateMessageRoute.post('/template-message', templateMessageController.createTemplateMessage)
+templateMessageRoute.post('/template-messages', templateMessageController.createTemplateMessage)
 
 export { templateMessageRoute }
