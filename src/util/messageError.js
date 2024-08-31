@@ -33,8 +33,14 @@ const USERS = {
     ALREADY_EXIST: 'the user already exist',
 }
 
+const CAMPAIGN = {
+    NOT_FOUND: 'the campaign is not found',
+    FAILED_TO_CREATE: 'failed to create the campaign',
+}
+
 export const errors = {
     HTTP: httpErrors,
     DATABASE: DATABASE,
     USERS: USERS,
+    CAMPAIGN: CAMPAIGN,
 }

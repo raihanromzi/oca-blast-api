@@ -10,14 +10,3 @@ const transporter = nodemailer.createTransport({
         pass: process.env.EMAIL_PASSWORD,
     },
 })
-
-export const sendEmailBlast = (email, user) => {
-    const mailOptions = {
-        from: process.env.EMAIL_ADDRESS,
-        to: email,
-        subject: 'OCA Email Blast',
-        text: `Hello ${user.name}, your email blast has been sent to ${email}`,
-    }
-
-    return transporter.sendMail(mailOptions)
-}

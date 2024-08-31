@@ -14,6 +14,8 @@ const fetchAllUser = async () => {
             errors.USERS.NOT_FOUND
         )
     }
+
+    return users
 }
 
 const fetchUserById = async (id) => {
