@@ -23,16 +23,12 @@ export const sendWhatsAppMessage = async (phoneNumber) => {
         }
 
         // Make a POST request to WhatsApp Cloud API
-        const response = await axios.post(url, body, {
+        await axios.post(url, body, {
             headers: {
                 Authorization: `Bearer ${process.env.CLOUD_API_ACCESS_TOKEN}`, // Your access token
                 'Content-Type': 'application/json',
             },
         })
-
-        // Log success and return the response
-        console.log('WhatsApp message sent successfully:', response.data)
-        return { success: true, data: response.data }
     } catch (error) {
         // Handle errors from the WhatsApp API
         console.error('Error sending WhatsApp message:', error.response?.data || error.message)
