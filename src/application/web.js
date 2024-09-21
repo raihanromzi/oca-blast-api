@@ -39,8 +39,9 @@ web.post('/api/v1/email', async (req, res, next) => {
 web.post('/api/v1/whatsapp', async (req, res, next) => {
     const { contacts } = req.body
 
-    await sendWhatsAppMessage(contacts)
-    return res.status(200).json({ success: true, message: 'WhatsApp message sent successfully' })
+    const result = await sendWhatsAppMessage(contacts)
+
+    return res.status(200).json(result)
 })
 
 web.get('/api/v1/track', (req, res) => {

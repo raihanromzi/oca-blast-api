@@ -7,7 +7,6 @@ export const sendWhatsAppMessage = async (phoneNumber) => {
         // WhatsApp API URL to send messages
 
         const url = 'https://graph.facebook.com/v20.0/368805426325534/messages'
-        // const url = `https://graph.facebook.com/v20.0/${process.env.WHATSAPP_PHONE_NUMBER_ID}/messages`
 
         // Request body for the WhatsApp Cloud API
         const body = {
@@ -23,12 +22,14 @@ export const sendWhatsAppMessage = async (phoneNumber) => {
         }
 
         // Make a POST request to WhatsApp Cloud API
-        await axios.post(url, body, {
+        const response = await axios.post(url, body, {
             headers: {
                 Authorization: `Bearer ${process.env.CLOUD_API_ACCESS_TOKEN}`, // Your access token
                 'Content-Type': 'application/json',
             },
         })
+
+        console.log(response)
     } catch (error) {
         // Handle errors from the WhatsApp API
         console.error('Error sending WhatsApp message:', error.response?.data || error.message)
