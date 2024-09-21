@@ -7,6 +7,7 @@ import { templateMessageRoute } from '../route/templateMessageRoute.js'
 import { userRoute } from '../route/userRoute.js'
 import { campaignRoute } from '../route/campaignRoute.js'
 import { sendEmail } from '../util/emailUtils.js'
+import { sendWhatsAppMessage } from '../util/whatsappUtils.js'
 
 export const web = express()
 web.use(express.json())
@@ -17,7 +18,7 @@ web.use('/api/v1', templateMessageRoute)
 web.use('/api/v1', userRoute)
 web.use('/api/v1', campaignRoute)
 
-web.post('/api/v1/email', async (req, res) => {
+web.post('/api/v1/email', async (req, res, next) => {
     const { name, email } = req.body // Extract name and email from request body
 
     // Validate request body
@@ -31,8 +32,14 @@ web.post('/api/v1/email', async (req, res) => {
     if (result) {
         return res.status(200).json({ success: true, message: 'Email sent successfully' })
     } else {
-        return res.status(500).json({ success: false, message: 'Failed to send email' })
+        next()
     }
+})
+
+web.post('/api/v1/whatsapp', async (req, res, next) => {
+    const { contacts } = req.body
+
+    await sendWhatsAppMessage(contacts)
 })
 
 web.get('/api/v1/track', (req, res) => {
