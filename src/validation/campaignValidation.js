@@ -30,6 +30,10 @@ export class CampaignValidation {
 
     static CampaignSchema = z.object({
         campaignName: z.string().min(5).max(100),
+    })
+
+    static BlastSchema = z.object({
+        campaignId: z.number().min(1),
         users: z.array(this.UserSchema).nonempty(),
         stages: z.array(this.StageSchema).nonempty(),
     })

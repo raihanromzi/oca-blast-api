@@ -1,29 +1,21 @@
-import { prismaClientPostgres } from '../application/prisma.js'
 import { ResponseError } from './responseAPI.js'
-import { errors } from './messageError.js'
 
 export const userValidation = async (prisma, users) => {
-    const emails = users.map((user) => user.email)
-    const phoneNumbers = users.map((user) => user.phoneNumber)
-
-    const existingUsers = await prismaClientPostgres.user.findMany({
-        where: {
-            OR: [
-                { email: { in: emails.length ? emails : [''] } },
-                { phoneNumber: { in: phoneNumbers.length ? phoneNumbers : [''] } },
-            ],
-        },
-    })
-
-    const existingEmails = new Set(existingUsers.map((user) => user.email))
-    const existingPhoneNumbers = new Set(existingUsers.map((user) => user.phoneNumber))
-
+    // Loop through the provided users and validate their existence
     for (const user of users) {
-        if (!existingEmails.has(user.email) && !existingPhoneNumbers.has(user.phoneNumber)) {
+        // Query the database for the user with the exact email and phone number combination
+        const existingUser = await prisma.user.findFirst({
+            where: {
+                email: user.email,
+                phoneNumber: user.phoneNumber,
+            },
+        })
+
+        // If the user with this exact email and phone number does not exist, throw an error
+        if (!existingUser) {
             throw new ResponseError(
-                errors.HTTP.CODE.BAD_REQUEST,
-                errors.HTTP.STATUS.BAD_REQUEST,
-                errors.USERS.NOT_FOUND
+                404,
+                `User with email ${user.email} and phone number ${user.phoneNumber} not found.`
             )
         }
     }
@@ -48,7 +40,7 @@ export async function processCampaignBlast({ users, stages }) {
 async function scheduleNextStage(waitTime, users, stage) {
     setTimeout(async () => {
         await executeStage(stage, users)
-    }, waitTime * 1000)
+    }, waitTime * 5000)
 }
 
 async function handleAfterClickCondition(stage, users) {
